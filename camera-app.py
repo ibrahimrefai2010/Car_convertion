@@ -8,18 +8,19 @@ camera = picamera2.Picamera2()
 camera.start()
 
 kit = ServoKit(channels=8)
-number = 496
-left_servo = AngularServo(17, min_pulse_width=0.1/100, max_pulse_width=0.2/100, frame_width=0.020, min_angle=0, max_angle=90)
-right_servo = AngularServo(27, min_pulse_width=0.1/100, max_pulse_width=0.2/100, frame_width=0.020, min_angle=0, max_angle=90)
+number = 1111
 
 raw_image = camera.capture_array()
-cv2.imwrite(f'/home/hemo2995/Proggraming/evading/A.jpg', raw_image)
-'''while True:
-    raw_image = camera.capture_array()
-    kit.servo[0].angle = 75
-    kit.servo[1].angle = 60
-    print(f'image saved with the title {number}.jpg in ./turn')
-    cv2.imwrite(f'/home/hemo2995/Proggraming/evading/data/turn/{number}.jpg', raw_image)
-    sleep(0.1)
-    number += 1
-'''
+cv2.imwrite(os.path.join(os.getcwd(), 'dataset', 'right', '80.jpg'), raw_image)
+try:
+    while True:
+        raw_image = camera.capture_array()
+        kit.servo[0].angle = 90
+        kit.servo[1].angle = 50
+        print(f'image saved with the title {number}.jpg in ./turn')
+        cv2.imwrite(os.path.join(os.getcwd(), 'data', 'left-turn', f'{number}.jpg'), raw_image)
+        sleep(0.5)
+        number += 1
+except KeyboardInterrupt:
+    kit.servo[0].angle = 60
+    kit.servo[1].angle = 110

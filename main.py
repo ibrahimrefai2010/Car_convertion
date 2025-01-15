@@ -2,43 +2,45 @@ from gpiozero import AngularServo, DistanceSensor
 from time import sleep
 import cv2
 import time
+from adafruit_servokit import ServoKit
 
-left_servo = AngularServo(17, min_pulse_width=0.09/100, max_pulse_width=0.2/100, frame_width=0.020, min_angle=0, max_angle=90)
-right_servo = AngularServo(27, min_pulse_width=0.09/100, max_pulse_width=0.2/100, frame_width=0.020, min_angle=0, max_angle=90)
+left_level = [45, 30, 10]
+right_level = [100, 140, 160]
+
+kit = ServoKit(channels=8)
 Distance = DistanceSensor(echo=23, trigger=24)
-#def left():
-#    left_servo.angle = 0
-#    right_servo.angle = 45
+def left():
+    kit.servo[0].angle = right_level[0]
+    kit.servo[1].angle = left_level[1]
 
+def right():
+    kit.servo[0].angle = right_level[1]
+    kit.servo[1].angle = left_level[0]
 
-#def right():
-#    left_servo.angle = 45
-#    right_servo.angle = 0
+def straight():
+    kit.servo[0].angle = right_level[2]
+    kit.servo[1].angle = left_level[1]
 
-#def straight():
-#    left_servo.angle = 45
-#    right_servo.angle = 45
+def right_turn():
+    kit.servo[0].angle = right_level[2]
+    kit.servo[1].angle = left_level[0]
 
-#def turn():
-#    left_servo.angle = 0
-#    right_servo.angle = 90
-
-#def manuver():
-#    left_servo.angle = 0
-#    right_servo.angle = 50
-#    time.sleep(2)
-#    left_servo.angle = 50
-#    right_servo.angle = 0
-#    sleep(4)
+def left_turn():
+    kit.servo[0].angle = right_level[0]
+    kit.servo[1].angle = left_level[2]
 
 #left_servo.angle = 0
 #right_servo.angle = 0
 #sleep(2)
 
 
-left_servo.angle = 80
-right_servo.angle = 80
-sleep(1)
+right()
+sleep(2)
+#straight()
+#sleep(2)
+
+kit.servo[0].angle = 60
+kit.servo[1].angle = 45
 
 '''while True:
     print(Distance.distance)
